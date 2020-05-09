@@ -1,0 +1,88 @@
+
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.App {
+    max-width: 1280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+/* HEADER STYLING *********************************************************************/
+.header {
+    width: 100%;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.header-container {
+    width: 90%;
+    height: 75px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* DASHBOARD STYLING ******************************************************************/
+.dashboard {
+    width: 100%;
+    height: 800px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.topic-header {
+    width: 90%;
+    border-bottom: 10px solid rgba(0,204,204);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.topic-container {
+    width: 80%;
+    border-bottom: 7px solid rgba(255,128,0,1);
+
+    margin-top: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 100px;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.topic {
+    border: 1px solid black;
+    width: 200px;
+    height: 100px;
+
+}
+
+.topic-form-background {
+    width: 800px;
+    height: 800px;
+    background-color: rgba(0,0,0,0,5);
+}
+
+
+.topic-form {
+    position: fixed;
+    top: 50%;
+    bottom: 50%;
+    left: 50%;
+    right: 50%;
+    z-index: 1;
+    background-color: whitesmoke;
+    color: red;
+}
