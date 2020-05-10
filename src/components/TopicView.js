@@ -7,7 +7,7 @@ class Card extends React.Component {
             <div className='card' >
                 <h3 className='card-title'>{this.props.title}</h3>
                 <p className='card-def'>{this.props.definition}</p>
-                <button className='card-edit' onClick={() => {this.props.handleCardForm('edit')}}>Edit</button>
+                <button className='card-edit' onClick={() => this.props.handleCardForm('edit',this.props.cardId)}>Edit</button>
                 <button className='card-delete' onClick={() => this.props.deleteCard(this.props.cardId)}>Delete</button>
             </div>
         )
@@ -42,8 +42,8 @@ class CardForm extends React.Component {
                         placeholder="Definition"
                     />
                 </form>
-                <button className='card-save' onClick={this.props.handleCardFormSubmit()}>Save</button>
-                <button className='card-cancel' onClick={() => this.props.handleCardForm('hide')}>Cancel</button>
+                <button className='card-save' onClick={this.props.handleCardFormSubmit}>Save</button>
+                <button className='card-cancel' onClick={() => this.props.handleCardForm('hide',0)}>Cancel</button>
             </div>
         </div>
         )
@@ -57,6 +57,7 @@ class TopicView extends React.Component {
         currentTopic: this.props.currentTopic,
         cardFormShow: false,
         cardFormEdit: true,
+        cardEditId: 0
     }
 
     handleChange = event => {
@@ -91,15 +92,21 @@ class TopicView extends React.Component {
         }).then(res => res.json())
         .then(resJson => {console.log(resJson)})
         setTimeout(this.viewTopic,100)
+        // clear card form state
+        this.setState({cardTitle: ""})
+        this.setState({cardDefinition: ""})
+        // hide card form
+        this.handleCardForm('hide',0)
+
     }
 
     editCard = id => {
         fetch(this.props.apiBaseURL + this.props.apiPort + '/cards/' + id, {
-            methods: 'PUT',
-            body: {
+            method: 'PUT',
+            body: JSON.stringify({
                 title: this.state.cardTitle,
                 definition: this.state.cardDefinition
-            },
+            }),
             headers: {'Content-Type' : 'application/json'}
         })
         .then(res => res.json())
@@ -107,6 +114,11 @@ class TopicView extends React.Component {
             console.log('edit card response: ',resJson)
         })
         setTimeout(this.viewTopic,100)
+        // clear card form state
+        this.setState({cardTitle: ""})
+        this.setState({cardDefinition: ""})
+        // hide card form
+        this.handleCardForm('hide',0)
     }
 
     deleteCard = id => {
@@ -121,19 +133,35 @@ class TopicView extends React.Component {
         setTimeout(this.viewTopic,100)
     }
 
-    handleCardFormSubmit = id => {
+    handleCardFormSubmit = () => {
         if(this.state.cardFormEdit === false){
             this.addCard();
         } else {
-            this.editCard(id)
+            this.editCard(this.state.cardEditId)
         }
     }
 
-    handleCardForm = state => {
+    handleCardForm = (state,cardId) => {
+        if(cardId > 0){
+            this.setState({cardEditId: cardId})
+        }
         if(state === 'add'){
             this.setState({cardFormEdit: false})
             this.setState({cardFormShow: true})
         } else if(state === 'edit'){
+            // find current card info
+            let cardArr = this.state.currentTopic.cards
+            let currentCard = {}
+            for(let i=0;i<cardArr.length;i++){
+                if(cardArr[i].id === cardId){
+                    currentCard = cardArr[i]
+                    break;
+                }
+            }
+            // set up form with current card info
+            this.state.cardTitle = currentCard.title
+            this.state.cardDefinition = currentCard.definition
+            // show edit form
             this.setState({cardFormEdit: true})
             this.setState({cardFormShow: true})
         } else if(state === 'hide'){
@@ -148,6 +176,7 @@ class TopicView extends React.Component {
                 <div className='card-header'>
                     <h1>{this.props.title}</h1>
                     <button className='card-add' onClick={() => this.handleCardForm('add')}>Add Card</button>
+                    <button className='take-quiz' onClick={() => this.props.handleQuiz(true)}>Take Quiz</button>
                 </div>
                 { this.state.currentTopic.cards ? 
                     <div className='cards-container'>
@@ -173,7 +202,9 @@ class TopicView extends React.Component {
                         handleChange={this.handleChange}
                         handleCardForm={this.handleCardForm}
                         cardFormEdit={this.state.cardFormEdit}
-                        handleCardFormSubmitd={this.handleCardFormSubmit}
+
+                        handleCardFormSubmit={this.handleCardFormSubmit}
+
                         cardTitle={this.state.cardTitle}
                         cardDefinition={this.state.cardDefinition}
                         apiBaseURL={this.props.apiBaseURL}

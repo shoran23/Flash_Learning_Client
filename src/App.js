@@ -1,8 +1,15 @@
 import React from 'react';
 import './App.css';
+// import {
+//   BrowswerRouter as Router,
+//   Switch,
+//   Route,
+//   Link
+// } from 'react-router-dom';
 import Dashboard from './components/Dashboard.js';
 import Header from './components/Header.js';
 import TopicView from './components/TopicView.js';
+import QuizView from './components/QuizView.js'
 
 class App extends React.Component {
   state = {
@@ -10,9 +17,11 @@ class App extends React.Component {
     apiPort: '3000',
     currentTopic: {},
     topics: [],
-    addTopicTitle: "",
+    topicTitle: "",
     addCardTitle: "",
-    addCardDefinition: ""
+    addCardDefinition: "",
+    topicEditId: 0,
+    quizEnabled: false
   }
 
   /* Topics ****************************************************************/
@@ -32,14 +41,15 @@ class App extends React.Component {
       .then(parsedData => {
         this.setState({currentTopic: parsedData})
       })
+      
   }
 
   addTopic = () => {
-    if(this.state.addTopicTitle.length){
+    if(this.state.topicTitle.length){
       fetch(this.state.apiBaseURL + this.state.apiPort + '/topics', {
         method: 'POST',
         body: JSON.stringify({
-          title: this.state.addTopicTitle
+          title: this.state.topicTitle
         }),
         headers: {'Content-Type' : 'application/json'}
       }).then(res => res.json())
@@ -48,6 +58,25 @@ class App extends React.Component {
       })
     }
     setTimeout(this.getTopics,100)
+    // clear topic state
+    this.setState({topicTitle: ""})
+  }
+
+  editTopic = id => {
+    fetch(this.state.apiBaseURL + this.state.apiPort + '/topics/' + id, {
+      method: 'PUT',
+      body: JSON.stringify({
+        title: this.state.topicTitle
+      }),
+      headers: {'Content-Type' : 'application/json'}
+    })
+    .then(res => res.json())
+    .then(resJson => {
+      console.log('edit topic response: ',resJson)
+    })
+    setTimeout(this.getTopics,100)
+    // clear topic state
+    this.setState({topicTitle: ""})
   }
 
   deleteTopic = id => {
@@ -57,7 +86,7 @@ class App extends React.Component {
         'Content-Type' : 'application/json'
       }})
       setTimeout(this.getTopics,100)
-    }
+  }
 
   clearCurrentTopic = () => {
     // clear current topic
@@ -69,7 +98,30 @@ class App extends React.Component {
       [event.target.id]: event.target.value
     })
   }
+  /*  Quiz **************************************************************/
+  handleQuiz = state => {
+    this.setState({quizEnabled: state})
+  }
   render () {
+
+    let topicView;
+
+    if(this.state.quizEnabled === false){
+      topicView = <TopicView 
+        currentTopic={this.state.currentTopic}
+        title={this.state.currentTopic.title}
+        cards={this.state.currentTopic.cards}
+        apiBaseURL={this.state.apiBaseURL}
+        apiPort={this.state.apiPort}
+        handleQuiz={this.handleQuiz}
+      />
+    } else {
+      topicView = <QuizView 
+        topic={this.state.currentTopic}
+        handleQuiz={this.handleQuiz}
+      />
+    }
+
     return (
       <div className="App">
         <Header 
@@ -81,16 +133,13 @@ class App extends React.Component {
             viewTopic={this.viewTopic}
             deleteTopic={this.deleteTopic}
             addTopic={this.addTopic}
+            editTopic={this.editTopic}
             handleChange={this.handleChange}
-            addTopicTitle={this.state.addTopicTitle}
+            topicTitle={this.state.topicTitle}
+            currentTopic={this.state.currentTopic}
           />
-          : <TopicView 
-              currentTopic={this.state.currentTopic}
-              title={this.state.currentTopic.title}
-              cards={this.state.currentTopic.cards}
-              apiBaseURL={this.state.apiBaseURL}
-              apiPort={this.state.apiPort}
-            />
+        :
+          topicView
         }
       </div>
     );
