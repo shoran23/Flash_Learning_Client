@@ -26,7 +26,9 @@ class QuizView extends React.Component {
         selectedDefinitionCardId: 0,
         correctMatches: 0,
         incorrectMatches: 0,
-        quizComplete: false
+        quizComplete: false,
+        titleList: [],
+        defList: []
     }
 
     cardMatchIsCorrect = id => {
@@ -74,10 +76,25 @@ class QuizView extends React.Component {
         setTimeout(this.checkForMatch,100)
     }
 
+    shuffleArr = array => {
+        var currentIndex = array.length;
+        var temporaryValue, randomIndex;
+        // while there remain elements to shuffle
+        while(0 !== currentIndex) {
+            // pick a remaining element
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+            // swap it with the current element
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+        return array;
+    };
+
     render () {
 
-        console.log('title card id: ',this.state.selectedTitleCardId)
-        console.log('definition card id: ',this.state.selectedDefinitionCardId)
+        let shuffledCards;
 
         return (
             <div className='quiz'>
@@ -104,7 +121,7 @@ class QuizView extends React.Component {
                     </div>
                     <div className='definition-coloumn'>
                         <h2>Definitions</h2>
-                        {this.props.topic.cards.map(card => (
+                        {this.props.cards.map(card => (
                             <DefinitionCard 
                                 key={card.id}
                                 definition={card.definition}
@@ -124,6 +141,9 @@ class QuizView extends React.Component {
             </div>
         )
     }
+    componentDidMount() {
+        let arr = [1,2,3,4,5,6]
+        console.log(this.shuffleArr(arr))
+    }
 }
-
 export default QuizView;

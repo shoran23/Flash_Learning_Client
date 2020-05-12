@@ -26,7 +26,6 @@ class App extends React.Component {
 
   /* Topics ****************************************************************/
   getTopics = () => {
-    this.setState({topics:[]})
     fetch(this.state.apiBaseURL + this.state.apiPort + '/topics')
         .then(data => data.json(), err => console.log(err))
         .then(parsedData => {
@@ -102,6 +101,7 @@ class App extends React.Component {
   handleQuiz = state => {
     this.setState({quizEnabled: state})
   }
+
   render () {
 
     let topicView;

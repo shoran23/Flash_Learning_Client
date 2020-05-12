@@ -172,7 +172,7 @@ class TopicView extends React.Component {
 
     render () {
         return (
-            <div className='topic'>
+            <div className='topic-card'>
                 <div className='card-header'>
                     <h1>{this.props.title}</h1>
                     <button className='card-add' onClick={() => this.handleCardForm('add')}>Add Card</button>

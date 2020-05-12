@@ -15,9 +15,11 @@ class Topic extends React.Component {
         return (
             <div style={{border: `10px solid ${this.getColor(this.props.index)}`}} className='topic'>
                 <div className='topic-title' >{this.props.title}</div>
-                <button className='topic-view' onClick={() => this.props.viewTopic(this.props.id)}>View</button>
-                <button className='topic-edit' onClick={() => this.props.handleTopicForm('edit',this.props.id)}>Edit</button>
-                <button className='topic-delete' onClick={() => this.props.deleteTopic(this.props.id)} >Delete</button>
+                <div className='topic-body'>
+                    <button className='topic-view' onClick={() => this.props.viewTopic(this.props.id)}>View</button>
+                    <button className='topic-edit' onClick={() => this.props.handleTopicForm('edit',this.props.id)}>Edit</button>
+                    <button className='topic-delete' onClick={() => this.props.deleteTopic(this.props.id)} >Delete</button>
+                </div>
             </div>
         )
     }

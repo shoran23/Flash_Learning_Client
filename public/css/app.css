@@ -16,7 +16,11 @@
 /* HEADER STYLING *********************************************************************/
 .header {
     width: 100%;
-    border: 1px solid black;
+    border: 1px solid whitesmoke;
+    border-bottom: 0px none white;
+    background-color: rgba(255,128,0,0.7);
+    color: white;
+    text-shadow: 1px 1px black;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -31,11 +35,23 @@
     align-items: center;
 }
 
+.back {
+    width: 75px;
+    height: 35px;
+    background-color: rgba(102,0,204);
+    color: white;
+    text-shadow: 1px 1px black;
+    font-size: 12px;
+    
+}
+
 /* DASHBOARD STYLING ******************************************************************/
 .dashboard {
     width: 100%;
     height: 800px;
-    border: 1px solid black;
+    border-top: 20px solid rgba(0,204,204,0.7);
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -43,30 +59,88 @@
 
 .topic-header {
     width: 90%;
-    border-bottom: 10px solid rgba(0,204,204);
+    margin-top: 20px;
+    border-bottom: 20px solid rgba(0,204,204);
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    align-items: center;
+}
+
+.topic-add {
+    width: 100px;
+    height: 45px;
+    background-color: rgba(0,152,0,0.8);
+    border-radius: 5px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 1px 1px black
 }
 
 .topic-container {
     width: 80%;
-    border-bottom: 7px solid rgba(255,128,0,1);
-
-    margin-top: 20px;
+    padding-top: 20px;
     padding-left: 30px;
     padding-right: 30px;
     padding-bottom: 100px;
+    border-top: 20px solid rgba(255,128,0,0.7);
+}
+@media screen and (min-width: 400px){
+    .topic-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+}
+@media screen and (min-width: 800px){
+    .topic-container {
+        display: grid;
+        grid-template-columns: repeat(4, 230px);
+        grid-template-rows: auto;
+    }
+}
 
-    display: flex;
-    flex-direction: row;
+.topic-title {
+    margin-top: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    grid-area: header;
 }
 
 .topic {
     border: 1px solid black;
     width: 200px;
     height: 100px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
 
+.topic-title {
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.topic-body {
+    height: 70%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.topic-view, .topic-edit, .topic-delete {
+    width: 63px;
+    height: 38px;
+    background-color: gray;
+    color: white;
+    text-shadow: 1px 1px black;
+    font-size: 13px;
 }
 
 .topic-form-background {
@@ -74,7 +148,6 @@
     height: 800px;
     background-color: rgba(0,0,0,0,5);
 }
-
 
 .topic-form {
     position: fixed;
@@ -84,5 +157,49 @@
     right: 50%;
     z-index: 1;
     background-color: whitesmoke;
-    color: red;
+}
+
+/* Topic View ***********************************************************************************************************/
+.topic-cards {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.card-header {
+    width: 40%;
+    margin-top: 20px;
+    border-bottom: 20px solid rgba(0,204,204);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.cards-container {
+    overflow: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    overflow: auto;
+
+}
+
+.card {
+    width: 500px;
+    height: 300px;
+    border: 1px solid black;
+}
+
+.card-title {
+    height: 50px;
+    margin-top: 0;
+    padding-left: 20px;
+    background-color: rgba(255,128,0,0.7);
+    color: white;
+    text-shadow: 1px 1px black;
+    display: flex;
+    flex-direction: flex-start;
+    align-items: center;
+
 }
