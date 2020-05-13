@@ -1,14 +1,19 @@
 import React from  'react'
-import { Carousel } from 'react-responsive-carousel'
+import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext} from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 
 class Card extends React.Component {
     render () {
         return (
             <div className='card' >
                 <h3 className='card-title'>{this.props.title}</h3>
-                <p className='card-def'>{this.props.definition}</p>
-                <button className='card-edit' onClick={() => this.props.handleCardForm('edit',this.props.cardId)}>Edit</button>
-                <button className='card-delete' onClick={() => this.props.deleteCard(this.props.cardId)}>Delete</button>
+                <div className='card-body'>
+                    <p className='card-def'>{this.props.definition}</p>
+                    <div className='card-options'>
+                        <button className='card-edit' onClick={() => this.props.handleCardForm('edit',this.props.cardId)}>Edit</button>
+                        <button className='card-delete' onClick={() => this.props.deleteCard(this.props.cardId)}>Delete</button>
+                    </div>
+                </div>
             </div>
         )
     }
@@ -18,32 +23,38 @@ class CardForm extends React.Component {
     render () {
         return (
             <div className='card-form-background'>
-            <div style={{border: `5x solid rgba(0,255,128)`}} className='card-form'>
+            <div className='card-form'>
                 <form>
                     { !this.props.cardFormEdit ?
-                        <h3>New Card</h3>
+                        <h3 className='card-form-title-new' >New Card</h3>
                     :
-                        <h3>Edit Card</h3>
+                        <h3 className='card-form-title-edit' >Edit Card</h3>
                     }
-                    <input 
-                        type="text"
-                        name="cardTitle"
-                        id="cardTitle"
-                        onChange={this.props.handleChange}
-                        value={this.props.cardTitle}
-                        placeholder='Title'
-                    />
-                    <input 
-                        type="text"
-                        name="cardDefinition"
-                        id="cardDefinition"
-                        onChange={this.props.handleChange}
-                        value={this.props.cardDefinition}
-                        placeholder="Definition"
-                    />
+                    <div className='card-form-body'>
+                        <input 
+                            className='cord-form-title'
+                            type="text"
+                            name="cardTitle"
+                            id="cardTitle"
+                            onChange={this.props.handleChange}
+                            value={this.props.cardTitle}
+                            placeholder='Title'
+                        />
+                        <input 
+                            className='card-form-def'
+                            type="text"
+                            name="cardDefinition"
+                            id="cardDefinition"
+                            onChange={this.props.handleChange}
+                            value={this.props.cardDefinition}
+                            placeholder="Definition"
+                        />
+                    </div>
                 </form>
-                <button className='card-save' onClick={this.props.handleCardFormSubmit}>Save</button>
-                <button className='card-cancel' onClick={() => this.props.handleCardForm('hide',0)}>Cancel</button>
+                <div className='card-form-options'>
+                    <button className='card-save' onClick={this.props.handleCardFormSubmit}>Save</button>
+                    <button className='card-cancel' onClick={() => this.props.handleCardForm('hide',0)}>Cancel</button>
+                </div>
             </div>
         </div>
         )
@@ -57,7 +68,8 @@ class TopicView extends React.Component {
         currentTopic: this.props.currentTopic,
         cardFormShow: false,
         cardFormEdit: true,
-        cardEditId: 0
+        cardEditId: 0,
+        selectedCardIndex: 0
     }
 
     handleChange = event => {
@@ -167,7 +179,22 @@ class TopicView extends React.Component {
         } else if(state === 'hide'){
             this.setState({cardFormEdit: false})
             this.setState({cardFormShow: false})
+            this.setState({cardTitle: ""})
+            this.setState({cardDefinition: ""})
         }
+    }
+
+    selectCard = index => {
+        this.setState({selectedCardIndex: index})
+        // clear all other cards style
+        for(let i=0;i<this.state.currentTopic.cards.length;i++){
+            let clearCard = document.getElementById(`card-select-${i}`)
+            clearCard.style = 'border-bottom: 5px solid rgba(102,102,255,0)'
+
+        }
+        // set the selected card styl
+        let selectedCard = document.getElementById(`card-select-${index}`);
+        selectedCard.style = 'border-bottom: 5px solid rgba(102,102,255,1)';
     }
 
     render () {
@@ -175,21 +202,25 @@ class TopicView extends React.Component {
             <div className='topic-card'>
                 <div className='card-header'>
                     <h1>{this.props.title}</h1>
-                    <button className='card-add' onClick={() => this.handleCardForm('add')}>Add Card</button>
-                    <button className='take-quiz' onClick={() => this.props.handleQuiz(true)}>Take Quiz</button>
+                    <div className='card-options-header'>
+                        <button className='card-add' onClick={() => this.handleCardForm('add')}>Add Card</button>
+                        <button className='take-quiz' onClick={() => this.props.handleQuiz(true)}>Take Quiz</button>
+                    </div>
                 </div>
                 { this.state.currentTopic.cards ? 
                     <div className='cards-container'>
-                        {this.state.currentTopic.cards.map(card => (
-                            <Card 
-                                key={card.id}
-                                title={card.title}
-                                cardId={card.id}
-                                definition={card.definition}
-                                deleteCard={this.deleteCard}
-                                handleCardForm={this.handleCardForm}
-                            />
-                        ))}
+                        <div className='cards-nav'>
+                            {this.state.currentTopic.cards.map((card,index) => (
+                                <button className='card-select' id={`card-select-${index}`}key={index} onClick={() => this.selectCard(index)}>{card.title}</button>
+                            ))}
+                        </div>
+                        <Card 
+                            title={this.state.currentTopic.cards[this.state.selectedCardIndex].title}
+                            cardId={this.state.currentTopic.cards[this.state.selectedCardIndex].id}
+                            definition={this.state.currentTopic.cards[this.state.selectedCardIndex].definition}
+                            deleteCard={this.deleteCard}
+                            handleCardForm={this.handleCardForm}
+                        />
                     </div>
                 : 
                     <div className='card-empty'>
@@ -215,6 +246,9 @@ class TopicView extends React.Component {
                 }
             </div>
         )
+    }
+    componentDidMount() {
+        this.selectCard(0)
     }
 }
 

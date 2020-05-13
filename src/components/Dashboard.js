@@ -3,10 +3,18 @@ import React from  'react'
 class Topic extends React.Component {
     getColor = index => {
         let color;
-        if(index % 2 === 0) {
-            color = '255,128,0'
+        if(index < 4){
+            if(index % 2 === 0) {
+                color = '255,128,0'
+            } else {
+                color = '0,204,204'
+            }
         } else {
-            color = '0,204,204'
+            if(index % 2 === 0) {
+                color = '0,204,204'
+            } else {
+                color = '255,128,0'
+            }
         }
         return `rgba(${color},0.70)`
     }

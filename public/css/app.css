@@ -4,6 +4,10 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+button:hover {
+    background-color: rgba(102,102,255,1);
+}
+
 .App {
     max-width: 1280px;
     display: flex;
@@ -133,7 +137,6 @@
     align-items: center;
 }
 
-
 .topic-view, .topic-edit, .topic-delete {
     width: 63px;
     height: 38px;
@@ -144,9 +147,14 @@
 }
 
 .topic-form-background {
-    width: 800px;
-    height: 800px;
-    background-color: rgba(0,0,0,0,5);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1;
+    transform: translate(-50%, -50%);
 }
 
 .topic-form {
@@ -159,36 +167,220 @@
     background-color: whitesmoke;
 }
 
+.topic-form {
+    position: absolute;
+    width: 60%;
+    top: 35%;
+    left: 50%;
+    height: 300px;
+    border: 1px solid black;
+    background-color: white;
+    margin-top: 65px;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+}
+
+.topic-form-title-new, .topic-form-title-edit {
+    width: auto;
+    height: 50px;
+    display: flex;
+    padding-left: 20px;
+    background-color :rgba(255,128,0,0.7);
+    color: white;
+    margin-top: 0;
+    text-shadow: 1px 1px black;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.topic-form-title-edit {
+    background-color :rgba(0,204,204);
+}
+
+.topic-form-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+input {
+    width: 80%;
+    font-size: 14px;
+    padding-left: 10px;
+}
+
+.topic-form-title {
+    height: 75px;
+    margin-bottom: 10px;
+}
+
+.topic-form-def {
+    height: 150px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+}
+
+.topic-save, .topic-cancel {
+    width: 100px;
+    height: 40px;
+    color: white;
+    text-shadow: 1px 1px black;
+    font-size: 13px;  
+    margin-top: 30px;    
+} 
+
+.topic-save {
+    background-color: rgba(0,152,0,0.8)
+}
+.topic-cancel {
+    background-color: red;
+}
+
 /* Topic View ***********************************************************************************************************/
-.topic-cards {
-    width: 100%;
-    margin-right: auto;
-    margin-left: auto;
+.topic-card {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .card-header {
-    width: 40%;
+    width: 100%;
     margin-top: 20px;
-    border-bottom: 20px solid rgba(0,204,204);
+    border-bottom: 5px solid rgba(255,128,0,0.7);
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
 }
 
+.card-add, .take-quiz {
+    width: 100px;
+    height: 40px;
+    background-color: gray;
+    color: white;
+    text-shadow: 1px 1px black;
+    font-size: 13px; 
+}
+
+.card-add {
+    background-color: rgba(0,152,0,0.8);
+}
+
 .cards-container {
+    width: 100%;
     overflow: auto;
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    overflow: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
+.cards-nav {
+    width: auto;
+    background-color: rgba(0,204,204);
+    padding: 10px 40px 10px 40px;   
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+}
+
+.card-select {
+    width: 12%;
+    height: 36px;
+    background-color: rgba(102,102,255,0);
+    border: none;
+    color: white;
+    text-shadow: 1px 1px black;
+    font-size: 16px;
+}
+
+#selected-card {
+    border-bottom: 2px solid rgba(102,102,255,1)
 }
 
 .card {
-    width: 500px;
+    width: 50%;
     height: 300px;
     border: 1px solid black;
+    margin-top: 65px;
+}
+
+.card-save, .card-cancel {
+    width: 100px;
+    height: 40px;
+
+    color: white;
+    text-shadow: 1px 1px black;
+    font-size: 13px;      
+} 
+
+.card-save {
+    background-color: rgba(0,152,0,0.8)
+}
+.card-cancel {
+    background-color: red;
+}
+
+
+@media screen and (min-width: 400px){
+    .cards-nav {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 75px);
+        grid-template-rows: auto;
+    }
+    .card {
+        width: 90%
+    }
+    .card-options-header {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+}
+
+@media screen and (min-width: 800px){
+    .cards-nav {
+        width: 60%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+    .card {
+        width: 50%;
+    }
+    .card-options-header {
+        width: 18%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.card-options {
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .card-title {
@@ -201,5 +393,168 @@
     display: flex;
     flex-direction: flex-start;
     align-items: center;
+}
+
+.card-def {
+    width: 80%;
+    border: 1px solid lightgray;
+    padding: 30px 30px 30px 30px;
+}
+
+.card-edit, .card-delete {
+    width: 100px;
+    height: 40px;
+    background-color: gray;
+    color: white;
+    text-shadow: 1px 1px black;
+    font-size: 13px;
+}
+
+/* Quiz View */
+.quiz-header {
+    width: 100%;
+    margin-top: 20px;
+    border-bottom: 5px solid rgba(255,128,0,0.7);
+}
+
+.quiz-scores {
+    color: white;
+    background-color: rgb(0,128,255);
+    padding: 20px 30px 20px 30px;
+    text-shadow: 1px 1px black;
+}
+
+.end-quiz {
+    width: 100px;
+    height: 40px;
+    background-color: gray;
+    color: white;
+    text-shadow: 1px 1px black;
+    font-size: 13px;  
+}
+
+.quiz-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media screen and (min-width: 400px){
+    .quiz-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .title-column {
+        width: 100%;
+    }
+    .definition-column {
+        width: 100%;
+    }
+    .end-quiz {
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+    .card-form {
+        width: 90%
+    }
+}
+
+@media screen and (min-width: 800px){
+    .quiz-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    .title-column {
+        width: 25%;
+    }
+    .definition-column {
+        width: 60%;
+    }
+    .card-form {
+        width: 60%;
+    }
 
 }
+
+.quiz-complete {
+    color: white;
+    text-shadow: 1px 1px black;
+    background-color: rgba(0,204,204);
+    padding: 30px 20px 30px 20px;
+}
+
+.card-form-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1;
+    transform: translate(-50%, -50%);
+}
+
+.card-form {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    height: 300px;
+    border: 1px solid black;
+    background-color: white;
+    margin-top: 65px;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+}
+
+.card-form-title-new, .card-form-title-edit {
+    width: auto;
+    height: 50px;
+    display: flex;
+    padding-left: 20px;
+    background-color :rgba(255,128,0,0.7);
+    color: white;
+    margin-top: 0;
+    text-shadow: 1px 1px black;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.card-form-title-edit {
+    background-color :rgba(0,204,204);
+}
+
+.card-form-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+input {
+    width: 80%;
+    font-size: 14px;
+    padding-left: 10px;
+}
+
+.card-form-title {
+    height: 75px;
+    margin-bottom: 10px;
+}
+
+.card-form-def {
+    height: 150px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+}
+
