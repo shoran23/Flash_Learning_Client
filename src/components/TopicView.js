@@ -84,7 +84,6 @@ class TopicView extends React.Component {
     }
 
     viewTopic = () => {
-        this.setState({currentTopic: {}})
         fetch(this.props.apiBaseURL + this.props.apiPort + '/topics/' + this.props.currentTopic.id)
         .then(data => data.json(), err => console.log(err))
         .then(parsedData => {
@@ -109,7 +108,6 @@ class TopicView extends React.Component {
         this.setState({cardDefinition: ""})
         // hide card form
         this.handleCardForm('hide',0)
-
     }
 
     editCard = id => {
@@ -141,7 +139,8 @@ class TopicView extends React.Component {
         .then(res => res.json)
         .then(resJson => {
             console.log('delete card response: ',resJson)
-        })    
+        })  
+        this.setState({selectedCardIndex: 0})  
         setTimeout(this.viewTopic,100)
     }
 
@@ -198,6 +197,10 @@ class TopicView extends React.Component {
     }
 
     render () {
+
+        console.log('current topic: ',this.state.currentTopic.cards)
+        console.log('current topic length: ',this.state.currentTopic.cards.length)
+
         return (
             <div className='topic-card'>
                 <div className='card-header'>
@@ -207,7 +210,8 @@ class TopicView extends React.Component {
                         <button className='take-quiz' onClick={() => this.props.handleQuiz(true)}>Take Quiz</button>
                     </div>
                 </div>
-                { this.state.currentTopic.cards ? 
+
+                { this.state.currentTopic.cards.length ? 
                     <div className='cards-container'>
                         <div className='cards-nav'>
                             {this.state.currentTopic.cards.map((card,index) => (
@@ -246,9 +250,6 @@ class TopicView extends React.Component {
                 }
             </div>
         )
-    }
-    componentDidMount() {
-        this.selectCard(0)
     }
 }
 

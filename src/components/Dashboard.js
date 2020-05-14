@@ -75,6 +75,7 @@ class Dashboard extends React.Component {
         } else {
             this.props.editTopic(this.state.topicEditId)
         }
+        this.setState({topicFormShow: false})
     }
 
     handleTopicForm = (state,topicId) => {
