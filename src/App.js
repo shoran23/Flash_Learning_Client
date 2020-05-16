@@ -13,8 +13,8 @@ import QuizView from './components/QuizView.js'
 
 class App extends React.Component {
   state = {
-    apiBaseURL: 'http://localhost:',
-    apiPort: '3000',
+    apiBaseURL: 'https://radiant-island-78718.herokuapp.com/',
+    apiPort: '8080',
     currentTopic: {},
     topics: [],
     topicTitle: "",
@@ -26,7 +26,7 @@ class App extends React.Component {
 
   /* Topics ****************************************************************/
   getTopics = () => {
-    fetch(this.state.apiBaseURL + this.state.apiPort + '/topics')
+    fetch(this.state.apiBaseURL + '/topics')
         .then(data => data.json(), err => console.log(err))
         .then(parsedData => {
             this.setState({topics: parsedData})
