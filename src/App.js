@@ -35,7 +35,7 @@ class App extends React.Component {
 
   viewTopic = id => {
     // fetch topic from the database
-    fetch('https://radiant-island-78718.herokuapp.com//topics' + id)
+    fetch('https://radiant-island-78718.herokuapp.com//topics/' + id)
       .then(data => data.json(), err => console.log(err))
       .then(parsedData => {
         this.setState({currentTopic: parsedData})
@@ -62,7 +62,7 @@ class App extends React.Component {
   }
 
   editTopic = id => {
-    fetch('https://radiant-island-78718.herokuapp.com//topics' + id, {
+    fetch('https://radiant-island-78718.herokuapp.com//topics/' + id, {
       method: 'PUT',
       body: JSON.stringify({
         title: this.state.topicTitle
@@ -79,7 +79,7 @@ class App extends React.Component {
   }
 
   deleteTopic = id => {
-    fetch('https://radiant-island-78718.herokuapp.com//topics' + id, {
+    fetch('https://radiant-island-78718.herokuapp.com//topics/' + id, {
       method: 'DELETE',
       headers: {
         'Content-Type' : 'application/json'
