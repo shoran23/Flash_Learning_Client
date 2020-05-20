@@ -26,7 +26,7 @@ class App extends React.Component {
 
   /* Topics ****************************************************************/
   getTopics = () => {
-    fetch(this.state.apiBaseURL + '/topics')
+    fetch('https://radiant-island-78718.herokuapp.com//topics')
         .then(data => data.json(), err => console.log(err))
         .then(parsedData => {
             this.setState({topics: parsedData})
@@ -35,7 +35,7 @@ class App extends React.Component {
 
   viewTopic = id => {
     // fetch topic from the database
-    fetch(this.state.apiBaseURL + this.state.apiPort + '/topics/' + id)
+    fetch('https://radiant-island-78718.herokuapp.com//topics' + id)
       .then(data => data.json(), err => console.log(err))
       .then(parsedData => {
         this.setState({currentTopic: parsedData})
@@ -45,7 +45,7 @@ class App extends React.Component {
 
   addTopic = () => {
     if(this.state.topicTitle.length){
-      fetch(this.state.apiBaseURL + this.state.apiPort + '/topics', {
+      fetch('https://radiant-island-78718.herokuapp.com//topics', {
         method: 'POST',
         body: JSON.stringify({
           title: this.state.topicTitle
@@ -62,7 +62,7 @@ class App extends React.Component {
   }
 
   editTopic = id => {
-    fetch(this.state.apiBaseURL + this.state.apiPort + '/topics/' + id, {
+    fetch('https://radiant-island-78718.herokuapp.com//topics' + id, {
       method: 'PUT',
       body: JSON.stringify({
         title: this.state.topicTitle
@@ -79,7 +79,7 @@ class App extends React.Component {
   }
 
   deleteTopic = id => {
-    fetch(this.state.apiBaseURL + this.state.apiPort + '/topics/' + id, {
+    fetch('https://radiant-island-78718.herokuapp.com//topics' + id, {
       method: 'DELETE',
       headers: {
         'Content-Type' : 'application/json'
